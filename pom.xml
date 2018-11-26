@@ -11,11 +11,24 @@
     <name>archive-spring-integration</name>
     <description>Redis communication to integrate components of the pride archive</description>
 
+    <developers>
+        <developer>
+            <id>Suresh Hewapathirana</id>
+            <name>Suresh Hewapathirana</name>
+            <organization>Proteomics, EMBL-European Bioinformatics Institute</organization>
+            <organizationUrl>http://www.ebi.ac.uk/pride</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>Europe/London</timezone>
+        </developer>
+    </developers>
+
+
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.6.RELEASE</version>
-        <relativePath/>
+        <groupId>uk.ac.ebi.pride.architectural</groupId>
+        <artifactId>pride-spring</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -25,37 +38,22 @@
         <jackson.mapper.version>1.9.13</jackson.mapper.version>
         <jackson.databind.version>2.3.2</jackson.databind.version>
         <archive.data.provider.api.version>2.0.11</archive.data.provider.api.version>
+        <spring.integration.version>5.1.0.RELEASE</spring.integration.version>
+        <spring.boot.starter.integration.version>2.1.0.RELEASE</spring.boot.starter.integration.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.integration</groupId>
-            <artifactId>spring-integration-core</artifactId>
-            <version>5.1.0.RELEASE</version>
-        </dependency>
-
+        <!-- Spring Framework -->
         <dependency>
             <groupId>org.springframework.integration</groupId>
             <artifactId>spring-integration-redis</artifactId>
-            <version>5.1.0.RELEASE</version>
+            <version>${spring.integration.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-integration</artifactId>
-            <version>2.1.0.RELEASE</version>
+            <version>${spring.boot.starter.integration.version}</version>
         </dependency>
 
         <!-- Archive data provider API -->
@@ -90,22 +88,36 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.databind.version}</version>
         </dependency>
-
-        <!-- project Lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
     </dependencies>
 
     <build>
+        <resources>
+            <!-- Maven should filter properties files -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>*.properties</include>
+                    <include>*/*</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludeDevtools>true</excludeDevtools>
+                </configuration>
             </plugin>
         </plugins>
     </build>
+
+    <scm>
+        <connection>scm:git:https://github.com/PRIDE-Archive/pride-archive-integration.git</connection>
+        <developerConnection>scm:git:https://github.com/PRIDE-Archive/pride-archive-integration.git</developerConnection>
+        <url>https://github.com/PRIDE-Archive/pride-spring.git</url>
+        <tag>HEAD</tag>
+    </scm>
 
 </project>
