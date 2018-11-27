@@ -1,19 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<configuration>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>web - %date [%thread] %-5level %logger{36} - %message%n
-            </pattern>
-        </encoder>
-    </appender>
+<configuration scan="true" scanPeriod="30 seconds">
 
-    <logger name="org.springframework" level="WARN" />
-    <logger name="org.springframework.transaction" level="WARN" />
+<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+    <resetJUL>true</resetJUL>
+</contextListener>
 
-    <!-- in order to debug some marshalling issues, this needs to be TRACE -->
-    <logger name="org.springframework.web.servlet.mvc" level="WARN" />
+<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <file>log/archive_submission_pipeline.log</file>
 
-    <root level="INFO">
-        <appender-ref ref="STDOUT" />
-    </root>
+    <encoder>
+        <pattern>%.-1level|%d{HH:mm:ss.SSS}|%-40.40logger{0}|%msg%n</pattern>         `
+    </encoder>
+</appender>
+
+<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+        <pattern>%.-1level|%d{HH:mm:ss.SSS}|%-40.40logger{0}|%msg%n</pattern>
+    </encoder>
+</appender>
+
+<!--override to INFO level in all pride -->
+<logger name="uk.ac.ebi.pride" level="INFO"/>
+<logger name="org.springframework.integration" level="INFO"/>
+
+<root level="INFO">
+    <appender-ref ref="FILE"/>
+    <appender-ref ref="STDOUT"/>
+</root>
+
 </configuration>

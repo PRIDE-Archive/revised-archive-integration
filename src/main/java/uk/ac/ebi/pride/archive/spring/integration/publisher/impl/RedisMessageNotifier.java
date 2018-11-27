@@ -1,5 +1,6 @@
 package uk.ac.ebi.pride.archive.spring.integration.publisher.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -15,6 +16,7 @@ import uk.ac.ebi.pride.archive.spring.integration.publisher.MessagePublisher;
 /**
  * @author Suresh Hewapathirana
  */
+@Slf4j
 public class RedisMessageNotifier implements MessagePublisher<String>{
 
   private RedisConnectionFactory redisConnectionFactory;
@@ -37,7 +39,7 @@ public class RedisMessageNotifier implements MessagePublisher<String>{
     RedisTemplate<String, T> submissionRedisTemplate = getRedisTemplate(redisConnectionFactory, payloadClass);
     ListOperations<String, T> submissionList = submissionRedisTemplate.opsForList();
     submissionList.leftPush(queue, payload);
-    System.out.println("queue:" + queue +  "and payload: "+ payload.toString());
+    log.info("payload: "+ payload.toString() + " received to queue " + queue);
   }
 
   /**

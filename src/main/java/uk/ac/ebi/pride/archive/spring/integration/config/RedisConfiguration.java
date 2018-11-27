@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import redis.clients.jedis.HostAndPort;
@@ -17,6 +18,7 @@ import java.util.Set;
 
 /** @author Suresh Hewapathirana */
 @Slf4j
+@Order(1)
 @Configuration
 @PropertySource("classpath:application.properties")
 public class RedisConfiguration {
