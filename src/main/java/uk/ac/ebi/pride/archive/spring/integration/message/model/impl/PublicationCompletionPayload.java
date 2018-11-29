@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 @EqualsAndHashCode
 public class PublicationCompletionPayload implements ProjectAccessionPayload,Serializable {
