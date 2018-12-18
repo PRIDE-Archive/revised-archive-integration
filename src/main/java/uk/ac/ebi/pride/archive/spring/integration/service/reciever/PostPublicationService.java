@@ -29,15 +29,19 @@ public class PostPublicationService {
   @Value("${command.post.publication.command}")
   private String postPublicationCommand;
 
+  @Value("${command.post.reset.publication.command}")
+  private String postResetPublicationCommand;
+
 
   @ServiceActivator(inputChannel ="postPublicationChannel")
-  public void copyToMongoDB(PublicationCompletionPayload submission) {
+  public void SyncWithMongoDB(PublicationCompletionPayload submission) {
 
     log.info("Running Post Publication job to insert data to MongoDB: " + submission.getAccession());
 
     CommandBuilder postPublicationCommandBuilder = new DefaultCommandBuilder();
 
-    postPublicationCommandBuilder.argument(postPublicationCommand);
+    final String commandScript = (submission.getAccession().contains("_ERROR"))? postResetPublicationCommand : postPublicationCommand ;
+    postPublicationCommandBuilder.argument(commandScript);
     // append project accession
     postPublicationCommandBuilder.argument("-p", submission.getAccession());
     // append notification argument

@@ -21,28 +21,22 @@ import uk.ac.ebi.pride.archive.spring.integration.message.model.impl.Publication
 @Order(2)
 public class PostPublicationServiceConfig {
 
-  @Autowired JedisConnectionFactory jedisConnectionFactory;
+  @Autowired
+  JedisConnectionFactory jedisConnectionFactory;
 
   @Bean
-  public Jackson2JsonRedisSerializer<PublicationCompletionPayload>
-      postPublicationJsonRedisSerializer() {
-    Jackson2JsonRedisSerializer<PublicationCompletionPayload> jacksonJsonRedisJsonSerializer =
-        new Jackson2JsonRedisSerializer<>(PublicationCompletionPayload.class);
-    return jacksonJsonRedisJsonSerializer;
+  public Jackson2JsonRedisSerializer<PublicationCompletionPayload> postPublicationJsonRedisSerializer() {
+    return  new Jackson2JsonRedisSerializer<>(PublicationCompletionPayload.class);
   }
 
   @Bean
-  RedisQueueMessageDrivenEndpoint redisQueueMessageDrivenEndpoint(
-      JedisConnectionFactory jedisConnectionFactory) {
+  RedisQueueMessageDrivenEndpoint redisQueueMessageDrivenEndpoint(JedisConnectionFactory jedisConnectionFactory) {
     RedisQueueMessageDrivenEndpoint endpoint =
-        new RedisQueueMessageDrivenEndpoint(
-            "archive.post.publication.completion.queue", jedisConnectionFactory);
+        new RedisQueueMessageDrivenEndpoint("archive.post.publication.completion.queue", jedisConnectionFactory);
     endpoint.setOutputChannelName("postPublicationChannel");
     endpoint.setErrorChannelName("postPublicationLoggingChannel");
     endpoint.setReceiveTimeout(5000);
-    Jackson2JsonRedisSerializer<PublicationCompletionPayload> jacksonJsonRedisJsonSerializer =
-        new Jackson2JsonRedisSerializer<>(PublicationCompletionPayload.class);
-    endpoint.setSerializer(jacksonJsonRedisJsonSerializer);
+    endpoint.setSerializer(new Jackson2JsonRedisSerializer<>(PublicationCompletionPayload.class));
     return endpoint;
   }
 
@@ -59,7 +53,7 @@ public class PostPublicationServiceConfig {
   @Bean
   public IntegrationFlow flow(JedisConnectionFactory jedisConnectionFactory) {
     return IntegrationFlows.from(redisQueueMessageDrivenEndpoint(jedisConnectionFactory))
-        .handle("PostPublicationService", "copyToMongoDB")
+        .handle("PostPublicationService", "SyncWithMongoDB")
         .log()
         .get();
   }
