@@ -32,9 +32,8 @@ public class PostPublicationService {
   @Value("${command.post.reset.publication.command}")
   private String postResetPublicationCommand;
 
-
   @ServiceActivator(inputChannel ="postPublicationChannel")
-  public void SyncWithMongoDB(PublicationCompletionPayload submission) {
+  public void syncWithMongoDB(PublicationCompletionPayload submission) {
 
     log.info("Running Post Publication job to insert data to MongoDB: " + submission.getAccession());
 

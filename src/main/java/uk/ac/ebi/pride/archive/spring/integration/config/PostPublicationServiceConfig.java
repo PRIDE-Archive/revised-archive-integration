@@ -53,7 +53,7 @@ public class PostPublicationServiceConfig {
   @Bean
   public IntegrationFlow flow(JedisConnectionFactory jedisConnectionFactory) {
     return IntegrationFlows.from(redisQueueMessageDrivenEndpoint(jedisConnectionFactory))
-        .handle("PostPublicationService", "SyncWithMongoDB")
+        .handle("PostPublicationService", "syncWithMongoDB")
         .log()
         .get();
   }
