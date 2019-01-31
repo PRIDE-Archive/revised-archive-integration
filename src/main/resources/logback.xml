@@ -8,7 +8,7 @@
     <file>log/revised-archive-integration.%d{yyyy-MM-dd}.log</file>
 
     <encoder>
-        <pattern>%.-1level|%d{HH:mm:ss.SSS}|%-40.40logger{0}|%msg%n</pattern>         `
+        <pattern>%.-1level|%d{yyyy-MM-dd HH:mm:ss.SSS}|%-40.40logger{0}|%msg%n</pattern>         `
     </encoder>
 </appender>
 
