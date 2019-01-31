@@ -5,7 +5,7 @@
 </contextListener>
 
 <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-    <file>log/archive_submission_pipeline.log</file>
+    <file>log/revised-archive-integration.%d{yyyy-MM-dd}.log</file>
 
     <encoder>
         <pattern>%.-1level|%d{HH:mm:ss.SSS}|%-40.40logger{0}|%msg%n</pattern>         `
