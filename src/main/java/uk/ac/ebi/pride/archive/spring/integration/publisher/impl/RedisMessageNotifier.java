@@ -10,7 +10,6 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.util.Assert;
 import uk.ac.ebi.pride.archive.spring.integration.config.RedisConfiguration;
-import uk.ac.ebi.pride.archive.spring.integration.message.model.impl.AssayDataGenerationPayload;
 import uk.ac.ebi.pride.archive.spring.integration.message.model.impl.PublicationCompletionPayload;
 import uk.ac.ebi.pride.archive.spring.integration.publisher.MessagePublisher;
 
@@ -66,10 +65,6 @@ public class RedisMessageNotifier implements MessagePublisher<String>{
         messageGenerator.sendNotification("archive.post.publication.completion.queue",
                 // projectAccession
                 new PublicationCompletionPayload(args[1]), PublicationCompletionPayload.class);
-      case 8:
-        messageGenerator.sendNotification("archive.incoming.assay.annotation.queue",
-                // projectAccession , assayAccession;
-                new AssayDataGenerationPayload(args[1],args[2]), AssayDataGenerationPayload.class);
         break;
       default:
         break;
