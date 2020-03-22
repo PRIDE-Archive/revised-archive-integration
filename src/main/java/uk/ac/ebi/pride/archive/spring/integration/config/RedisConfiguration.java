@@ -44,6 +44,7 @@ public class RedisConfiguration {
     for (String node : nodes) {
       String[] hostAndPort = node.split(":");
       clusterNodes.add(new HostAndPort(hostAndPort[0], Integer.parseInt(hostAndPort[1])));
+      System.out.println("adding redis: " + hostAndPort[0] + " : " + hostAndPort[1]);
     }
     return clusterNodes;
   }

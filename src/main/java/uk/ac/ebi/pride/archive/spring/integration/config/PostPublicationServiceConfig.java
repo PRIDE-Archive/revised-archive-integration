@@ -30,13 +30,13 @@ public class PostPublicationServiceConfig {
   }
 
   @Bean
-  RedisQueueMessageDrivenEndpoint redisQueueMessageDrivenEndpoint(JedisConnectionFactory jedisConnectionFactory) {
+  RedisQueueMessageDrivenEndpoint postPublicationRedisQueueMessageDrivenEndpoint(JedisConnectionFactory jedisConnectionFactory) {
     RedisQueueMessageDrivenEndpoint endpoint =
         new RedisQueueMessageDrivenEndpoint("archive.post.publication.completion.queue", jedisConnectionFactory);
     endpoint.setOutputChannelName("postPublicationChannel");
     endpoint.setErrorChannelName("postPublicationLoggingChannel");
     endpoint.setReceiveTimeout(5000);
-    endpoint.setSerializer(new Jackson2JsonRedisSerializer<>(PublicationCompletionPayload.class));
+    endpoint.setSerializer(postPublicationJsonRedisSerializer());
     return endpoint;
   }
 
@@ -51,8 +51,8 @@ public class PostPublicationServiceConfig {
   }
 
   @Bean
-  public IntegrationFlow flow(JedisConnectionFactory jedisConnectionFactory) {
-    return IntegrationFlows.from(redisQueueMessageDrivenEndpoint(jedisConnectionFactory))
+  public IntegrationFlow postPublicationFlow(JedisConnectionFactory jedisConnectionFactory) {
+    return IntegrationFlows.from(postPublicationRedisQueueMessageDrivenEndpoint(jedisConnectionFactory))
         .handle("PostPublicationService", "syncWithMongoDB")
         .log()
         .get();

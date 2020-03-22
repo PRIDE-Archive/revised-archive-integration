@@ -25,18 +25,18 @@ public class AssayAnalyseServiceConfig {
   JedisConnectionFactory jedisConnectionFactory;
 
   @Bean
-  public Jackson2JsonRedisSerializer<AssayDataGenerationPayload> postPublicationJsonRedisSerializer() {
+  public Jackson2JsonRedisSerializer<AssayDataGenerationPayload> assayAnalyseJsonRedisSerializer() {
     return  new Jackson2JsonRedisSerializer<>(AssayDataGenerationPayload.class);
   }
 
   @Bean
-  RedisQueueMessageDrivenEndpoint redisQueueMessageDrivenEndpoint(JedisConnectionFactory jedisConnectionFactory) {
+  RedisQueueMessageDrivenEndpoint assayAnalyseRedisQueueMessageDrivenEndpoint(JedisConnectionFactory jedisConnectionFactory) {
     RedisQueueMessageDrivenEndpoint endpoint =
         new RedisQueueMessageDrivenEndpoint("archive.incoming.assay.annotation.queue", jedisConnectionFactory);
     endpoint.setOutputChannelName("assayAnalyseChannel");
     endpoint.setErrorChannelName("assayAnalyseLoggingChannel");
     endpoint.setReceiveTimeout(5000);
-    endpoint.setSerializer(new Jackson2JsonRedisSerializer<>(AssayDataGenerationPayload.class));
+    endpoint.setSerializer(assayAnalyseJsonRedisSerializer());
     return endpoint;
   }
 
@@ -51,8 +51,8 @@ public class AssayAnalyseServiceConfig {
   }
 
   @Bean
-  public IntegrationFlow flow(JedisConnectionFactory jedisConnectionFactory) {
-    return IntegrationFlows.from(redisQueueMessageDrivenEndpoint(jedisConnectionFactory))
+  public IntegrationFlow assayAnalyseFlow(JedisConnectionFactory jedisConnectionFactory) {
+    return IntegrationFlows.from(assayAnalyseRedisQueueMessageDrivenEndpoint(jedisConnectionFactory))
         .handle("AssayAnalyseService", "analseAssay")
         .log()
         .get();
