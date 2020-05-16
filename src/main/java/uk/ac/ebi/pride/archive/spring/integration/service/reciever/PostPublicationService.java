@@ -42,7 +42,7 @@ public class PostPublicationService {
     final String commandScript = (submission.getAccession().contains("_ERROR"))? postResetPublicationCommand : postPublicationCommand ;
     postPublicationCommandBuilder.argument(commandScript);
     // append project accession
-    postPublicationCommandBuilder.argument("-p", submission.getAccession());
+    postPublicationCommandBuilder.argument("-p", submission.getAccession().replaceAll("_ERROR",""));
     // append notification argument
     postPublicationCommandBuilder.argument("-n");
 
