@@ -1,0 +1,22 @@
+redis:
+  cluster:
+    nodes: $redis_nodes
+    maxRedirects: 5
+    commandTimeout: 5000
+  pool:
+    blockWhenExhausted: false
+    max:
+      total: 100
+      idle: 50
+    min.idle: 50
+    testOnBorrow: true
+
+command:
+  mztab.generation.command: $submission_pipeline_dir/runMzTabGeneration.sh
+  mgf.generation.command: $submission_pipeline_dir/runMgfGeneration.sh
+  index.protein.command: $submission_pipeline_dir/runIndexMzTabForProtein.sh
+  index.psm.command: $submission_pipeline_dir/runIndexMzTabForPsm.sh
+  index.spectrum.command: $submission_pipeline_dir/runIndexMgfForSpectrum.sh
+  post.publication.command: $submission_pipeline_dir/runInsertToMongoDB.sh
+  post.reset.publication.command: $submission_pipeline_dir/runDeleteFromMongoDB.sh
+  assay.analyse.command: $submission_pipeline_dir/runAssayAnalyse.sh
