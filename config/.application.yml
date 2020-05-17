@@ -1,3 +1,6 @@
+logging:
+  path: './logs
+
 redis:
   cluster:
     nodes: $redis_nodes

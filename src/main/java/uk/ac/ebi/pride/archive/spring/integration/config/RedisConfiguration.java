@@ -20,7 +20,6 @@ import java.util.Set;
 @Slf4j
 @Order(1)
 @Configuration
-@PropertySource("classpath:application.properties")
 public class RedisConfiguration {
 
   @Value("#{'${redis.cluster.nodes}'.split(',')}")

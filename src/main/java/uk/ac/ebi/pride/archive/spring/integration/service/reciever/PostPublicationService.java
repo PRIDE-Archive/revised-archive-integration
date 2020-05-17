@@ -20,7 +20,6 @@ import java.util.Collection;
  */
 @Slf4j
 @MessageEndpoint
-@PropertySource("classpath:application.properties")
 public class PostPublicationService {
 
   @Autowired
