@@ -35,7 +35,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <jedis.version>2.9.0</jedis.version>
         <jackson.mapper.version>1.9.13</jackson.mapper.version>
-        <jackson.databind.version>2.9.10.4</jackson.databind.version>
+        <jackson.databind.version>2.9.10.7</jackson.databind.version>
         <archive.data.provider.api.version>2.0.11</archive.data.provider.api.version>
         <spring.integration.version>5.0.0.RELEASE</spring.integration.version>
         <spring.boot.starter.integration.version>2.1.0.RELEASE</spring.boot.starter.integration.version>
