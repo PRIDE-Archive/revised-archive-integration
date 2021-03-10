@@ -39,3 +39,10 @@ deploy_prod:
   only:
     - master
   when: manual
+
+deploy_hl:
+  environment: hl
+  extends: .deploy_script
+  only:
+    - master
+  when: manual
